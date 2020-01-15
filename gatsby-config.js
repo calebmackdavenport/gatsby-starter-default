@@ -18,7 +18,7 @@ module.exports = {
         name: `gatsby-agency-portfolio`,
         short_name: `GAP`,
         start_url: `/`,
-        icon: `src/images/gap_logo.svg`,
+        // icon: `src/images/gap_logo.svg`,
       },
     },
     {
