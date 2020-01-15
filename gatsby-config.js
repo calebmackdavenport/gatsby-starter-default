@@ -8,6 +8,9 @@ module.exports = {
   },
   plugins: [
     `gatsby-plugin-eslint`,
+    {
+      resolve: `gatsby-transformer-sharp`
+    },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-plugin-manifest`,
