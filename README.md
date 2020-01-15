@@ -1,10 +1,10 @@
 <p align="center">
   <a href="https://github.com/cosmicjs/gatsby-agency-portfolio">
-    <img alt="Gatsby Agency Portfolio" src="src/images/gap_logo.svg" width="60" />
+    <img alt="Davenport Computing Solutions" src="src/images/gap_logo.svg" width="60" />
   </a>
 </p>
 <h1 align="center">
-  Gatsby Agency Portfolio
+  Davenport Computing Solutions
 </h1>
 
 <h3 align="center">
