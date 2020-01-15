@@ -2,7 +2,7 @@ require('dotenv').config()
 
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Agency Portfolio`,
+    title: `Davenport Computing Solutions`,
     description: `A portfolio for your creative shop`,
     author: `@JacobKnaack`,
   },
