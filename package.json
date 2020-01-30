@@ -1,9 +1,9 @@
 {
   "name": "gatsby-agency-portfolio",
   "private": true,
-  "description": "A Static Portfolio site, designed for creative agencies",
+  "description": "A portfolio website for Mitchell Davenport",
   "version": "0.1.0",
-  "author": "Jacob Knaack",
+  "author": "Caleb Davenport",
   "dependencies": {
     "babel-plugin-styled-components": "^1.10.0",
     "dotenv": "^7.0.0",
@@ -47,6 +47,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/JacobKnaack/gatsby-agency-portfolio"
+    "url": "https://github.com/smebdi/gatsby-starter-default"
   }
 }

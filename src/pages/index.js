@@ -68,34 +68,36 @@ class IndexPage extends React.Component {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'flex-start',
+        alignItems: 'center',
       },
       splashPhrase: {
-        width: '70%',
-        paddingLeft: '20%',
         color: '#ffffff',
+        textShadow: '-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000',
+        opacity: 1,
+        paddingLeft: 180
       },
       work: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
+        paddingTop: 70
       },
       header: {
         display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
+        flexDirection: 'column',
+        justifyContent: 'center',
         alignItems: 'center',
       },
       title: {
-        paddingRight: '50px',
-        marginRight: '100px',
-        borderRight: 'thin solid black'
+        flex: 1,
+        textAlign: 'center'
       },
       description: {
-        maxWidth: '400px',
-        fontSize: '1.25rem',
-        margin: '0',
+        fontSize: '1.1rem',
+        marginLeft: '10%',
+        marginRight: '10%',
+        textAlign: 'center',
       },
       contactForm: {
         display: 'flex',
@@ -157,14 +159,18 @@ class IndexPage extends React.Component {
       >
         <SEO title="Home" keywords={[`cosmic js`, `application`, `react`]} />
         <section style={styles.splash} className="section-container splash">
+          <div style={{opacity: 1}}>
           {pageData.splash_phrase
             ? <div className="splash-phrase" style={styles.splashPhrase}>
-              <h2 style={{ fontSize: '2.5rem' }}>{pageData.splash_phrase}</h2>
-            </div>
+                <h2 style={{ fontSize: '2.5rem' }}>{pageData.splash_phrase}</h2>
+              </div>
             : null
           }
+          </div>
         </section>
+
         <section
+          id="work"
           ref={el => { this.workElement = el }}
           style={styles.work}
           className="section-container content work"
@@ -197,7 +203,9 @@ class IndexPage extends React.Component {
             </div>
           </Fade>
         </section>
+
         <section
+          id="about"
           ref={el => { this.peopleElement = el }}
           className="section-container content people"
         >
@@ -207,30 +215,35 @@ class IndexPage extends React.Component {
                 <h2 className="section-title" style={styles.title}>Who We Are</h2>
                 <p style={styles.description}>{pageData.people_description}</p>
               </div>
-              <div className="wrapper-content people">
-                {peopleData.map(person => {
-                  return (
-                    <Link key={person.node.title} to="/about" style={styles.person}>
-                      <div
-                        style={{
-                          background: `url(${person.node.metadata.image.url})`,
-                          backgroundSize: 'cover',
-                          backgroundPosition: 'center',
-                          marginBottom: '14px',
-                          width: '100%',
-                          height: '200px',
-                        }}
-                      />
-                      <h5 style={styles.personName}>{person.node.title}</h5>
-                      <h6 style={styles.personTitle}>{person.node.metadata.job_title}</h6>
-                    </Link>
-                  )
-                })}
+              <div style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'space-between'}}>
+                <div className="wrapper-content" style={{flex: 1}}>
+                  {peopleData.map(person => {
+                    return (
+                      <Link key={person.node.title} style={styles.person}>
+                        <div
+                          style={{
+                            background: `url(${person.node.metadata.image.url})`,
+                            backgroundSize: 'contain',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundPosition: 'center',
+                            marginBottom: '14px',
+                            width: '250px',
+                            height: '200px',
+                          }}
+                        />
+                        <h5 style={styles.personName}>{person.node.title}</h5>
+                        <h6 style={styles.personTitle}>{person.node.metadata.job_title}</h6>
+                      </Link>
+                    )
+                  })}
+                </div>
               </div>
             </div>
           </Fade>
         </section>
+
         <section
+          id="contact"
           ref={el => { this.contactElement = el }}
           name="contact"
           className="section-container content bottom contact"
@@ -238,7 +251,7 @@ class IndexPage extends React.Component {
           <Fade in={this.state.showContact}>
             <div className="contact-container">
               <div className="imageFilter" />
-              <div style={styles.header}>
+              <div style={styles.header, {flexDirection: 'column'}}>
                 <h2 className="section-title" style={styles.title}>Contact Us</h2>
                 <p style={styles.description}>Fill out the form below if you would like to get a hold of us.</p>
               </div>

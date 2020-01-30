@@ -41,7 +41,7 @@ class Header extends React.Component {
         position: 'fixed',
         width: '100%',
         zIndex: 100,
-        background: 'none',
+        background: '#fff',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -50,28 +50,25 @@ class Header extends React.Component {
       },
       navheader: {
         display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
         height: '100%',
+        padding: '5px'
       },
       link: {
-        color: `#728f99`,
-        textShadow: '0px 0px 1px #ffffff',
+        color: `#777`,
         margin: '0 0 0 30px',
         textDecoration: `none`,
       },
       logo: {
         width: '50px',
-        padding: '10px',
-        margin: '0',
+        padding: '5px',
+        margin: '5px',
+      },
+      inactive: {
+        color: '#fff'
       }
     }
     if (!this.state.scrollTop) {
-      styles.container.background = `#000000`
-      styles.container.color = `#ffffff`
-      styles.link.color = `#ffffff`
-      styles.link.textShadow = 'none'
+      styles.link.background = `transparent`
     }
 
     const { siteTitle, logo } = this.props
@@ -86,25 +83,18 @@ class Header extends React.Component {
           </h1>
         </Navbar.Header>
         <Navbar.Body>
-          <Nav>
+          <Nav appearance="default">
             <Nav.Item
               className={this.state.activeKey.includes('work') ? 'active' : ''}
               componentClass={Link}
-              to="/work"
+              to="/#work"
             >
               Work
             </Nav.Item>
             <Nav.Item
-              className={this.state.activeKey.includes('projects') ? 'active' : ''}
-              componentClass={Link}
-              to="/projects"
-            >
-              Projects
-            </Nav.Item>
-            <Nav.Item
               className={this.state.activeKey.includes('about') ? 'active' : ''}
               componentClass={Link}
-              to="/about"
+              to="/#about"
             >
               About
             </Nav.Item>
