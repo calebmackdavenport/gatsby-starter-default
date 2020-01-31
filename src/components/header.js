@@ -68,11 +68,10 @@ class Header extends React.Component {
       }
     }
 
-    const { siteTitle, logo } = this.props
+    const { siteTitle } = this.props
     return (
       <Navbar className={'shadow'} style={styles.container}>
         <Navbar.Header style={styles.navheader}>
-          {logo ? <img src={logo.url} style={styles.logo} /> : <h5>GAP</h5>}
           <h1>
             <Link to="/" style={styles.link}>
               {siteTitle}

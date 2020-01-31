@@ -62,7 +62,6 @@ class IndexPage extends React.Component {
     const pageData = this.props.data.cosmicjsPages.metadata
     const siteData = this.props.data.cosmicjsSettings.metadata
     const contactData = this.props.data.cosmicjsContacts.metadata
-    const connectData = this.props.data.allCosmicjsConnects.edges
     const peopleData = this.props.data.allCosmicjsPeople.edges
     const projectData = this.props.data.allCosmicjsProjects.edges
     let headerBreakpoint
@@ -169,7 +168,6 @@ class IndexPage extends React.Component {
         siteTitle={siteData.site_title}
         siteLogo={siteData.site_logo}
         contact={contactData}
-        connect={connectData}
         headerBreakpoint={headerBreakpoint}
       >
         <SEO title="Home" keywords={[`cosmic js`, `application`, `react`]} />
@@ -405,18 +403,6 @@ query Index {
       }
     }
   }
-  allCosmicjsServices {
-    edges {
-      node {
-        title
-        metadata {
-          icon
-          description
-          summary
-        }
-      }
-    }
-  }
   allCosmicjsProjects {
     edges {
       node {
@@ -427,16 +413,6 @@ query Index {
           }
           summary
           description
-        }
-      }
-    }
-  }
-  allCosmicjsConnects {
-    edges {
-      node {
-        title
-        metadata { 
-          url
         }
       }
     }
