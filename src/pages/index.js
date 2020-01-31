@@ -1,13 +1,15 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Link, graphql } from "gatsby"
-import { Animation, Icon, Input, Button, Message } from 'rsuite'
+import { graphql } from "gatsby"
+import { Animation, Input, Button, Message } from 'rsuite'
 const { Fade, Collapse } = Animation
 
 import 'rsuite/dist/styles/rsuite.min.css'
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import ProjectDisplay from '../components/projectDisplay.js'
+
+import More from "../images/more.inline.svg"
 
 // Home Page
 class IndexPage extends React.Component {
@@ -25,11 +27,8 @@ class IndexPage extends React.Component {
       userMessage: '',
       messageSubject: '',
       messageError: false,
+      focus: false
     }
-    this.updateDimensions = this.updateDimensions.bind(this)
-    this.handleScroll = this.handleScroll.bind(this)
-    this.handleContactForm = this.handleContactForm.bind(this)
-    this.handleInput = this.handleInput.bind(this)
   }
 
   componentDidMount() {
@@ -50,13 +49,21 @@ class IndexPage extends React.Component {
     window.removeEventListener("resize", this.updateDimensions)
   }
 
+  toggleHover = (e) => {
+    let focusedPerson = e.nativeEvent.relatedTarget;
+    if (focusedPerson) this.setState({focus: focusedPerson.id})
+  }
+
+  resetHover = () => {
+    this.setState({focus: false})
+  }
+
   render() {
     const pageData = this.props.data.cosmicjsPages.metadata
     const siteData = this.props.data.cosmicjsSettings.metadata
     const contactData = this.props.data.cosmicjsContacts.metadata
     const connectData = this.props.data.allCosmicjsConnects.edges
     const peopleData = this.props.data.allCosmicjsPeople.edges
-    const serviceData = this.props.data.allCosmicjsServices.edges
     const projectData = this.props.data.allCosmicjsProjects.edges
     let headerBreakpoint
     if (typeof window !== 'undefined') {
@@ -81,7 +88,8 @@ class IndexPage extends React.Component {
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        paddingTop: 70
+        paddingTop: 70,
+        margin: '0 auto'
       },
       header: {
         display: 'flex',
@@ -125,22 +133,29 @@ class IndexPage extends React.Component {
         color: '#a9a9a9',
       },
       person: {
-        width: '25%',
-        padding: '10px',
+        marginTop: '20px',
+        padding: '25px',
         display: 'flex',
+        height: '600px',
+        width: '33%',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        textDecoration: 'none'
+        flex: 1
       },
       personName: {
         marginTop: '0',
         color: 'black',
-        fontSize: '1rem'
+        fontSize: '1rem',
+        textAlign: 'center',
       },
       personTitle: {
         color: 'grey',
         fontSize: '0.8rem',
+        textAlign: 'center'
+      },
+      people: {
+        margin: '0 auto'
       }
     }
     if (pageData.splash_image) {
@@ -177,25 +192,25 @@ class IndexPage extends React.Component {
         >
           <Fade in={this.state.showWork}>
             <div className="section-wrapper">
-              <div className="section-header" style={styles.header}>
-                <h2 className="section-title" style={styles.title}>What We Do</h2>
-                <p className="people-description" style={styles.description}>{pageData.service_description}</p>
+              <div className="section-header box" style={styles.header}>
+                <div className={'boxContent'} style={{margin: 2}}>
+                  <h2 className="section-title" style={styles.title}>{pageData.service_title}</h2>
+                  <p className="people-description" style={styles.description}>{pageData.service_description}</p>
+                </div>
               </div>
-              <div className="wrapper-content services">
-                {serviceData.map(service => (
-                  <Link to="/work" key={service.node.title} className="service-link" style={styles.service}>
-                    <Icon size="3x" icon={service.node.metadata.icon} />
-                    <h5 style={styles.serviceName}>{service.node.title}</h5>
-                    <p style={styles.serviceDescription}>{service.node.metadata.summary}</p>
-                  </Link>
-                ))}
-              </div>
-              <div className="wrapper-content projects">
-                {projectData.map(project => (
+              <div 
+                style={{
+                  display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1, flexDirection: 'column', paddingTop: 80
+                }}
+                className="wrapper-content projects"
+              >
+                {projectData.map((project, i) => (
                   <ProjectDisplay
+                    index={i}
                     key={project.node.title}
                     title={project.node.title}
                     description={project.node.metadata.summary}
+                    details={project.node.metadata.description}
                     image={project.node.metadata.image.url}
                   />
                 ))}
@@ -208,6 +223,7 @@ class IndexPage extends React.Component {
           id="about"
           ref={el => { this.peopleElement = el }}
           className="section-container content people"
+          style={styles.people}
         >
           <Fade in={this.state.showPeople}>
             <div className="section-wrapper">
@@ -215,29 +231,57 @@ class IndexPage extends React.Component {
                 <h2 className="section-title" style={styles.title}>Who We Are</h2>
                 <p style={styles.description}>{pageData.people_description}</p>
               </div>
-              <div style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'space-between'}}>
+              <div style={{flex: 1, width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'space-between', marginBottom: 35}}>
                 <div className="wrapper-content" style={{flex: 1}}>
                   {peopleData.map(person => {
                     return (
-                      <Link key={person.node.title} style={styles.person}>
+                      <div
+                        onMouseEnter={this.toggleHover}
+                        onMouseLeave={this.resetHover}
+                        key={person.node.title} 
+                        style={styles.person}
+                        id={person.node.title}
+                      >
                         <div
                           style={{
                             background: `url(${person.node.metadata.image.url})`,
-                            backgroundSize: 'contain',
+                            backgroundSize: 'cover',
                             backgroundRepeat: 'no-repeat',
                             backgroundPosition: 'center',
-                            marginBottom: '14px',
-                            width: '250px',
-                            height: '200px',
+                            marginTop: '28px',
+                            marginBottom: '28px',
+                            marginLeft: 'auto', marginRight: 'auto',
+                            height: '400px',
+                            width: '350px',
                           }}
                         />
                         <h5 style={styles.personName}>{person.node.title}</h5>
                         <h6 style={styles.personTitle}>{person.node.metadata.job_title}</h6>
-                      </Link>
+                        <div style={{marginTop: '30px'}}>
+                          <div style={{position: 'relative', display: 'flex', height: '0', width: '400px', justifyContent: 'center', alignItems: 'center'}}>
+                            <More className={!(this.state.focus == person.node.title) ? 'toggleIn' : 'toggleOut'} style={{height: 30, width: 30, margin: '0 auto'}} />
+                          </div>
+                        </div>
+                      </div>
                     )
                   })}
                 </div>
               </div>
+              {peopleData.map(activePerson => {
+                if (this.state.focus == activePerson.node.title) return (
+                  <div 
+                    key={activePerson.node.title}
+                    className={'toggleIn hoverBorder'} 
+                    style={{flex: 1, marginLeft: '10%', marginRight: '10%'}}
+                  >
+                    <div style={{padding: '25px'}}>
+                      <p>{activePerson.node.metadata.desc1}</p>
+                      <p>{activePerson.node.metadata.desc2}</p>
+                      <p>{activePerson.node.metadata.desc3}</p>
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           </Fade>
         </section>
@@ -283,7 +327,7 @@ class IndexPage extends React.Component {
     )
   }
 
-  updateDimensions() {
+  updateDimensions = () => {
     this.setState({
       workHeight: this.workElement.clientHeight,
       peopleHeight: this.peopleElement.clientHeight,
@@ -291,7 +335,7 @@ class IndexPage extends React.Component {
     })
   }
 
-  handleScroll() {
+  handleScroll = () => {
     if (window.scrollY >= (window.innerHeight / 3) + 100) {
       this.setState({ showWork: true })
     } else {
@@ -309,7 +353,7 @@ class IndexPage extends React.Component {
     }
   }
 
-  handleContactForm(e) {
+  handleContactForm = (e) => {
     e.preventDefault()
     if (!this.state.userName || !this.state.userEmail || !this.state.messageSubject || !this.state.userMessage) {
       this.setState({ messageError: true })
@@ -321,7 +365,7 @@ class IndexPage extends React.Component {
     }
   }
 
-  handleInput(value, e) {
+  handleInput = (value, e) => {
     const { name } = e.target
     this.setState({ [name]: value })
   }
@@ -340,6 +384,7 @@ query Index {
       }
       splash_phrase
       contact_email
+      service_title
       service_description
       people_description
     }
@@ -353,6 +398,9 @@ query Index {
             url
           }
           job_title
+          desc1
+          desc2
+          desc3
         }
       }
     }
@@ -374,11 +422,9 @@ query Index {
       node {
         title
         metadata {
-          date
           image {
             url
           }
-          gallery
           summary
           description
         }
@@ -398,11 +444,8 @@ query Index {
   cosmicjsContacts(slug: {eq: "company-footer"}) {
     metadata {
       address1
-      address2
       postal_code
       city
-      region
-      country_code
       email
       phone_number
     }

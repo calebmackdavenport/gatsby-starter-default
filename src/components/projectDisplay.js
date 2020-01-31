@@ -1,44 +1,35 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'gatsby'
 
 class ProjectDisplay extends React.Component {
   constructor() {
     super()
-    this.state = {
-      hover: false
-    }
-    this.handleHover = this.handleHover.bind(this)
-    this.handleUnHover = this.handleUnHover.bind(this)
   }
 
   render() {
     let styles = {
       container: {
-        margin: '10px 0 0 10px',
-        minWidth: '400px',
-        minHeight: '400px',
-        height: '400px',
-        overflow: 'hidden',
-        textDecoration: 'none',
+        flex: 1,
+        justifyContent: 'space-between',
+        alignItems: 'space-between',
+        display: 'flex',
+      },
+      imgContainer: {
+        flex: 1,
+        minHeight: '500px',
+        minWidth: '500px',
       },
       details: {
-        height: '400px',
-        width: '400px',
-        padding: '30px',
-        opacity: '0',
-        color: '#d3d3d3',
-        background: 'rgba(0, 0, 0, 0.6)',
-        position: 'relative',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-end',
-        alignItems: 'flex-start',
-        overflowY: 'auto',
-        transition: '0.3s ease-in-out'
+        height: '500px',
+        width: '500px',
+        padding: '30px',
+        color: 'darkgray',
+        justifyContent: 'space-evenly'
       },
       title: {
-        fontSize: '2rem',
+        fontSize: '1.5rem',
         alignText: 'center',
       },
       description: {
@@ -46,39 +37,35 @@ class ProjectDisplay extends React.Component {
       }
     }
     if (this.props.image) {
-      styles.container.background = `url(${this.props.image})`
-      styles.container.backgroundSize = 'cover'
-      styles.container.backgroundPosition = 'center'
+      styles.imgContainer.background = `url(${this.props.image})`
+      styles.imgContainer.backgroundSize = 'cover'
+      styles.imgContainer.backgroundRepeat = 'no-repeat'
+      styles.imgContainer.backgroundPosition = 'center'
     }
     if (this.props.size === 'tall') {
-      styles.container.height = '600px'
+      styles.imgContainer.height = '600px'
       styles.details.height = '600px'
     }
-    if (this.state.hover) {
-      styles.details.opacity = '1'
-    }
 
-    return (
-      <Link
-        to={`/projects?${encodeURI(this.props.title)}`}
-        style={styles.container}
-        onMouseEnter={this.handleHover}
-        onMouseLeave={this.handleUnHover}
-      >
+    return (this.props.index % 2 == 0) ? (
+      <div style={styles.container}>
+        <div style={styles.imgContainer} />
         <div style={styles.details}>
-          <h5 style={styles.title}>{this.props.title}</h5>
-          <p style={styles.description}>{this.props.description}</p>
+          <h5 style={styles.title}>{this.props.description}</h5>
+          <p style={styles.description}>{this.props.details}</p>
         </div>
-      </Link>
+      </div>
+    ) : (
+      <div style={styles.container}>
+        <div style={styles.details}>
+          <h5 style={styles.title}>{this.props.description}</h5>
+          <p style={styles.description}>{this.props.details}</p>
+        </div>
+        <div style={styles.imgContainer} />
+      </div>
     )
   }
 
-  handleHover() {
-    this.setState({ hover: true })
-  }
-  handleUnHover() {
-    this.setState({ hover: false })
-  }
 }
 
 ProjectDisplay.propTypes = {
@@ -86,6 +73,8 @@ ProjectDisplay.propTypes = {
   description: PropTypes.string,
   image: PropTypes.string,
   size: PropTypes.string,
+  index: PropTypes.number,
+  details: PropTypes.string
 }
 
 export default ProjectDisplay

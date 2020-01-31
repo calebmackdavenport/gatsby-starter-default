@@ -18,7 +18,7 @@ module.exports = {
         name: `gatsby-agency-portfolio`,
         short_name: `GAP`,
         start_url: `/`,
-        // icon: `src/images/gap_logo.svg`,
+        icon: `src/images/favicon-32x32.png`,
       },
     },
     {
@@ -43,6 +43,14 @@ module.exports = {
         objectTypes: [`pages`, `people`, `services`, `projects`, `settings`, `connects`, `skills`, `clients`, `contacts`],
         apiAccess: {
           read_key: process.env.COSMIC_READ_KEY,
+        }
+      }
+    },
+    {
+      resolve: 'gatsby-plugin-react-svg',
+      options: {
+        rule: {
+          include: /\.inline\.svg$/
         }
       }
     }

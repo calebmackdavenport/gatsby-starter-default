@@ -41,12 +41,12 @@ class Header extends React.Component {
         position: 'fixed',
         width: '100%',
         zIndex: 100,
-        background: '#fff',
+        background: 'rgba(255,255,255,.93)',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        transition: '0.75s ease-in-out'
+        transition: '0.75s ease-in-out',
       },
       navheader: {
         display: 'flex',
@@ -67,13 +67,10 @@ class Header extends React.Component {
         color: '#fff'
       }
     }
-    if (!this.state.scrollTop) {
-      styles.link.background = `transparent`
-    }
 
     const { siteTitle, logo } = this.props
     return (
-      <Navbar style={styles.container}>
+      <Navbar className={'shadow'} style={styles.container}>
         <Navbar.Header style={styles.navheader}>
           {logo ? <img src={logo.url} style={styles.logo} /> : <h5>GAP</h5>}
           <h1>
